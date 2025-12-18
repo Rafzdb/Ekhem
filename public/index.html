@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RED_PROTOCOL AI</title>
+<script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body style="background:black;color:red;font-family:monospace">
+
+<h2>RED_PROTOCOL AI</h2>
+
+<div id="log" style="height:300px;overflow:auto;border:1px solid red"></div>
+
+<input id="q" placeholder="TYPE COMMAND">
+<button onclick="run()">EXEC</button>
+
+<script>
+async function run(){
+  const v = q.value.trim();
+  if(!v) return;
+  q.value="";
+  log.innerHTML += "<pre>[USER]\n"+v+"</pre>";
+
+  const r = await fetch("/api/gpt?query="+encodeURIComponent(v));
+  const d = await r.json();
+
+  log.innerHTML += "<pre>[AI]\n"+(d.result||"NO RESPONSE")+"</pre>";
+}
+</script>
+
+</body>
+</html>
